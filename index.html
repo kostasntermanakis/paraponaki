@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Μια έκπληξη για σένα...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Montserrat:wght@400;600&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+        }
+
+        /* ---------------- ΝΕΟ ΕΦΕ: POP EMOJIS ΣΤΟ ΦΟΝΤΟ ---------------- */
+        .bg-emoji {
+            position: absolute;
+            z-index: 1; /* Πίσω από την κάρτα (η κάρτα έχει 10) */
+            opacity: 0;
+            animation: popInOut ease-in-out forwards;
+            pointer-events: none; /* Να μην εμποδίζουν τα κλικ */
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        @keyframes popInOut {
+            0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+            20% { transform: scale(1.2) rotate(10deg); opacity: 0.6; } /* Εμφανίζονται ημιδιαφανή για να μην ενοχλούν */
+            80% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+            100% { transform: scale(0.5) rotate(15deg); opacity: 0; }
+        }
+        /* ----------------------------------------------------------------- */
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            z-index: 10;
+            transition: transform 0.3s ease, opacity 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .fade {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        h1 {
+            font-family: 'Caveat', cursive;
+            color: #ff4757;
+            font-size: 3.2em;
+            margin-bottom: 15px;
+            margin-top: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        p {
+            color: #57606f;
+            font-size: 1.2em;
+            line-height: 1.6;
+            transition: opacity 0.4s ease;
+            min-height: 60px;
+        }
+
+        .btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: #ff6b81;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.6);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .photo-frame {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #ff4757;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            display: block;
+        }
+
+        #final-message {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Οι καρδιές του τέλους που πάνε προς τα πάνω */
+        .heart {
+            position: absolute;
+            color: #ff4757;
+            animation: floatUp 4s linear forwards;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 11; /* Πάνω από όλα στο τέλος */
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5) rotate(45deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="card-container">
+        <!-- Βάλε εδώ τη φωτογραφία σας -->
+        <img src="IMG_2581.jpg" alt="Εμείς" class="photo-frame hidden" id="couple-photo">
+        
+        <h1 id="title">Γεια σου παραπονάκι μου... ✨</h1>
+        <p id="message">Για σήμερα, σου έχω ετοιμάσει κάτι λιγάκι διαφορετικό...</p>
+        
+        <div id="final-message" class="hidden">
+            <p><strong>Χρόνια Πολλά Αγάπη μου! 🎉🎂</strong></p>
+            <p>Κάθε μέρα μαζί σου είναι ένα υπέροχη, αλλά η σημερινή μέρα είναι λιγακι ξεχωριστή, γιατί είναι τα γενέθλια σου! Εύχομαι όλα σου τα όνειρα να γίνουν πραγματικότητα και υπόσχομαι να είμαι πάντα δίπλα σου για να τα ζούμε μαζί. Υ.Γ επειδή δεν μπόρεσα και δεν πρόλαβα να σου παρω κατι χροστάω σουσι στα Χανιά για τα γενέθλια σου! ΧΑΧΑΧΑ</p>
+            <p style="font-family: 'Caveat', cursive; font-size: 2.2em; color: #ff4757; margin-top: 15px; margin-bottom: 0;">Σ' αγαπώ πάρα πολύ! ❤️</p>
+        </div>
+
+        <button class="btn" id="next-btn">Τι είναι;</button>
+    </div>
+
+    <script>
+        const steps =[
+            { 
+                title: "Γεια σου παραπονάκι μου... ✨", 
+                message: "Για σήμερα, σου έχω ετοιμάσει κάτι λιγάκι διαφορετικό...", 
+                btn: "Τι είναι;" 
+            },
+            { 
+                title: "Χμμ...", 
+                message: "Πριν σου το δείξω, ήθελα απλά να σου υπενθυμίσω πόσο σημαντική είσαι για μένα και να σου πω ότι εισαί ένα απο τα πιο αγνά ατομα που έχω γνωρίσει.", 
+                btn: "Ααα, τι γλυκούλης... ❤️" 
+            },
+            { 
+                title: "Οπότε...", 
+                message: "Επειδή η σημερινή μέρα δεν είναι μια απλή συνηθισμένη μέρα...", 
+                btn: "Σωστά..." 
+            },
+            { 
+                title: "Είσαι έτοιμη;", 
+                message: "Πάρε μια βαθιά ανάσα, κλείσε τα μάτια... (Μην κλέβεις!) και πάτα το κουμπί!", 
+                btn: "Τα έκλεισα! Πάμε! 🙈" 
+            }
+        ];
+
+        let currentStep = 0;
+        let popInterval; // Μεταβλητή για να σταματήσουμε τα pop στο τέλος
+
+        const title = document.getElementById('title');
+        const message = document.getElementById('message');
+        const btn = document.getElementById('next-btn');
+        const finalMessage = document.getElementById('final-message');
+        const photo = document.getElementById('couple-photo');
+
+        // Ξεκινάμε τα pop emojis με το που φορτώνει η σελίδα
+        startBackgroundPops();
+
+        btn.addEventListener('click', () => {
+            currentStep++;
+
+            if (currentStep < steps.length) {
+                title.classList.add('fade');
+                message.classList.add('fade');
+                btn.classList.add('fade');
+
+                setTimeout(() => {
+                    title.innerText = steps[currentStep].title;
+                    message.innerText = steps[currentStep].message;
+                    btn.innerText = steps[currentStep].btn;
+
+                    title.classList.remove('fade');
+                    message.classList.remove('fade');
+                    btn.classList.remove('fade');
+                }, 400); 
+            } 
+            else {
+                showSurprise();
+            }
+        });
+
+        function showSurprise() {
+            // Σταματάμε το pop effect στο παρασκήνιο
+            clearInterval(popInterval);
+            
+            // Προαιρετικά, καθαρίζουμε όσα pop emojis υπάρχουν ήδη στην οθόνη
+            document.querySelectorAll('.bg-emoji').forEach(el => el.remove());
+
+            title.classList.add('fade');
+            message.classList.add('fade');
+            btn.classList.add('fade');
+
+            setTimeout(() => {
+                message.classList.add('hidden');
+                btn.classList.add('hidden');
+                
+                photo.classList.remove('hidden');
+                title.innerText = "Χρόνια σου Πολλά!";
+                title.classList.remove('fade');
+                
+                finalMessage.classList.remove('hidden');
+
+                // Αρχίζει η κανονική "βροχή" από καρδιές
+                createHeartsRain();
+            }, 400);
+        }
+
+        // --- Συνάρτηση για τα Pop Emojis του Build-up ---
+        function startBackgroundPops() {
+            // Φτιάχνει ένα νέο emoji κάθε 0.8 δευτερόλεπτα
+            popInterval = setInterval(() => {
+                const emojiEl = document.createElement('div');
+                emojiEl.classList.add('bg-emoji');
+                
+                // Ποικιλία από γλυκά emojis
+                const bgEmojis = ['✨', '🌸', '💖', '🦋', '🌷', '🎈', '💌'];
+                emojiEl.innerHTML = bgEmojis[Math.floor(Math.random() * bgEmojis.length)];
+                
+                // Τυχαία τοποθεσία στην οθόνη
+                emojiEl.style.left = (Math.random() * 90 + 5) + 'vw'; 
+                emojiEl.style.top = (Math.random() * 90 + 5) + 'vh';
+                
+                // Τυχαίο μέγεθος (από 1.5rem έως 3.5rem)
+                emojiEl.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+                
+                // Τυχαία διάρκεια (πόσο θα μείνει στην οθόνη)
+                emojiEl.style.animationDuration = (Math.random() * 2 + 2) + 's';
+
+                document.body.appendChild(emojiEl);
+
+                // Το σβήνουμε όταν τελειώσει το animation
+                setTimeout(() => {
+                    if (document.body.contains(emojiEl)) {
+                        emojiEl.remove();
+                    }
+                }, 4000);
+            }, 800);
+        }
+
+        // --- Συνάρτηση για τη Βροχή στο Τέλος ---
+        function createHeartsRain() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                const emojis = ['❤️', '💖', '✨', '🥰'];
+                heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }, 250); 
+        }
+    </script>
+</body>
+</html>
